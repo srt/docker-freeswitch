@@ -1,17 +1,21 @@
-FROM debian:jessie
-MAINTAINER Stefan Reuter <docker@reucon.com>
+FROM debian:stretch
 
+ENV FS_VERSION=1.8
 RUN set -x \
     && apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+               ca-certificates \
                curl \
-    && curl -Ls http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add - \
-    && echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" \
-         > /etc/apt/sources.list.d/freeswitch.list \
+               gnupg2 \
+    && curl -Ls https://files.freeswitch.org/repo/deb/freeswitch-$FS_VERSION/fsstretch-archive-keyring.asc | apt-key add - \
+    && echo "deb http://files.freeswitch.org/repo/deb/freeswitch-$FS_VERSION/ stretch main" \
+         >> /etc/apt/sources.list.d/freeswitch.list \
+    && echo "deb-src http://files.freeswitch.org/repo/deb/freeswitch-$FS_VERSION/ stretch main" \
+         >> /etc/apt/sources.list.d/freeswitch.list \
     && apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-               freeswitch-all \
-               libyuv \
+               freeswitch-meta-all \
+               freeswitch-sounds-de \
                vorbis-tools \
                xmlstarlet \
     && apt-get clean autoclean \
