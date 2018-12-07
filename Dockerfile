@@ -15,7 +15,6 @@ RUN set -x \
     && apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
                freeswitch-meta-all \
-               freeswitch-sounds-de \
                vorbis-tools \
                xmlstarlet \
     && apt-get clean autoclean \
